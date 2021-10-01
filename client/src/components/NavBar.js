@@ -3,8 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { ShopContext } from "../context/ShopContext";
 
 export default function NavBar() {
-  const { openCart} = useContext(ShopContext);
-
+  const { openCart } = useContext(ShopContext);
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -23,6 +22,15 @@ export default function NavBar() {
           <Nav.Link href="#account">Account</Nav.Link>
         </Nav>
         <Nav className="ml-auto">
+          <Nav.Link>
+            <img
+              className="p-0.5"
+              width={30}
+              src="/images/chat.svg"
+              alt="sc-logo"
+            />
+          </Nav.Link>
+
           <Nav.Link onClick={openCart}>
             <img
               className="p-0.5"
