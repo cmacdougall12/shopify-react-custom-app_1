@@ -1,9 +1,16 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
-import { Modal, Button, Figure, Row, Col, Container, Carousel } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  Figure,
+  Row,
+  Col,
+  Alert
+} from "react-bootstrap";
 
 export default function Cart() {
-  const { isCartOpen, closeCart, checkout, addItemsToCheckout } =
+  const { isCartOpen, closeCart, checkout, addItemsToCheckout, removeItem } =
     useContext(ShopContext);
 
   console.log("CHECK", checkout.lineItems);
@@ -15,11 +22,12 @@ export default function Cart() {
       </Modal.Header>
       <Modal.Body>
         <Row>
+          {checkout.lineItems.length === 0 && <Alert variant="danger" className="text-center">Cart is empty!!</Alert>}
           {checkout.lineItems &&
             checkout.lineItems.map((item) => (
               <Figure
                 id={item.variant.id}
-                className="d-flex border rounded p-2 bg-light"
+                className="d-flex border rounded bg-light"
               >
                 <Figure.Image src={item.variant.image.src} width={100} />
                 <Col className="m-3">
@@ -28,9 +36,9 @@ export default function Cart() {
                   <Figure.Caption>Price: ${item.variant.price}</Figure.Caption>
                   <Figure.Caption>Quantity: {item.quantity}</Figure.Caption>
                 </Col>
-                <Col className="d-flex-inline flex-column align-items-center">
+                <Col className="d-flex align-items-center">
                   <Button
-                    variant="success"
+                    variant="secondary"
                     onClick={() => {
                       addItemsToCheckout(item.variant.id, 1);
                     }}
@@ -39,7 +47,7 @@ export default function Cart() {
                     +
                   </Button>
                   <Button
-                    variant="danger"
+                    variant="secondary"
                     onClick={() => {
                       addItemsToCheckout(item.variant.id, -1);
                     }}
@@ -50,10 +58,20 @@ export default function Cart() {
                     -
                   </Button>
                 </Col>
+
+                <Col className="d-flex justify-content-end">
+                  <Button
+                    onClick={() => {
+                      removeItem(item.id);
+                    }}
+                    variant="dark"
+                    size="sm"
+                  >
+                    Remove
+                  </Button>
+                </Col>
               </Figure>
             ))}
-
-          {!checkout && <span>Cart is empty!!</span>}
         </Row>
         <div>
           <div>Total: ${checkout.totalPrice}</div>
