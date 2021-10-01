@@ -39,8 +39,14 @@ export default function ProductPage() {
           >
             Add to Cart
           </Button>
+          <Button variant="light">
+        <img src="/images/chat.svg" width={30} alt="chat-icon" className="m-2" />
+        Have a question?
+      </Button>
         </Card>
       </Col>
+ 
+
       <Cart />
     </Container>
   );
