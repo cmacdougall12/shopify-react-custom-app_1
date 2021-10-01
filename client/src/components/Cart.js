@@ -1,19 +1,10 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
-import {
-  Modal,
-  Button,
-  Figure,
-  Row,
-  Col,
-  Alert
-} from "react-bootstrap";
+import { Modal, Button, Figure, Row, Col, Alert } from "react-bootstrap";
 
 export default function Cart() {
   const { isCartOpen, closeCart, checkout, addItemsToCheckout, removeItem } =
     useContext(ShopContext);
-
-  console.log("CHECK", checkout.lineItems);
 
   return (
     <Modal show={isCartOpen} onHide={closeCart}>
@@ -22,7 +13,11 @@ export default function Cart() {
       </Modal.Header>
       <Modal.Body>
         <Row>
-          {checkout.lineItems.length === 0 && <Alert variant="danger" className="text-center">Cart is empty!!</Alert>}
+          {(!checkout.lineItems || checkout.lineItems.length === 0) && (
+            <Alert variant="danger" className="text-center">
+              Cart is empty!!
+            </Alert>
+          )}
           {checkout.lineItems &&
             checkout.lineItems.map((item) => (
               <Figure
@@ -81,7 +76,12 @@ export default function Cart() {
         <Button variant="secondary" onClick={closeCart}>
           Continue Shopping
         </Button>
-        <Button variant="primary" href={checkout.webUrl} onClick={closeCart}>
+        <Button
+          disabled={!checkout.lineItems || checkout.lineItems.length === 0}
+          variant="primary"
+          href={checkout.webUrl}
+          onClick={closeCart}
+        >
           Checkout
         </Button>
       </Modal.Footer>
