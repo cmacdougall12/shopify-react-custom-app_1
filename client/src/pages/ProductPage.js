@@ -8,7 +8,7 @@ import { useConversations } from "../context/ConversationsProvider";
 
 export default function ProductPage() {
   let { id } = useParams();
-  const { openConversations } = useConversations();
+  const { openConversations, createConversation } = useConversations();
 
   const { fetchProductWithId, product, addItemsToCheckout, openCart } =
     useContext(ShopContext);
@@ -42,7 +42,18 @@ export default function ProductPage() {
           >
             Add to Cart
           </Button>
-          <Button variant="light" onClick={() => openConversations()}>
+          <Button
+            variant="light"
+            onClick={() => {
+              openConversations();
+              createConversation(
+                1,
+                product.id,
+                product.title,
+                product.images[0].src,
+              );
+            }}
+          >
             <img
               src="/images/chat.svg"
               width={30}

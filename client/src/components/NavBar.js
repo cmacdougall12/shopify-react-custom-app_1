@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext} from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useConversations } from "../context/ConversationsProvider";
 import { ShopContext } from "../context/ShopContext";
