@@ -29,7 +29,7 @@ export default function MessageModal() {
       <Modal.Body>
         <Container fluid>
           <Row>
-            <Col xs>
+            <Col xs className="border h-100">
               <ListGroup variant="flush">
                 {conversations.map((conversation) => (
                   <ListGroup.Item key={conversation.id}>
@@ -37,6 +37,7 @@ export default function MessageModal() {
                       width={100}
                       src={conversation.productImage}
                       alt="product"
+                      className="m-3"
                     />
                     {conversation.productTitle}
                   </ListGroup.Item>
@@ -49,7 +50,7 @@ export default function MessageModal() {
       </Modal.Body>
       <Modal.Footer>
         <InputGroup>
-          <FormControl as="textarea" aria-label="With textarea" />
+          <FormControl as="textarea" placeholder="Ask question here?" />
         </InputGroup>
         <Button> Send</Button>
       </Modal.Footer>
