@@ -30,7 +30,7 @@ export default function ProductPage() {
     <Container fluid className="d-flex justify-content-center mt-5">
       <Col xs={10} md={5}>
         <Card>
-          <Card.Img src={product.images[0].src} thumbnail />
+          <Card.Img src={product.images[0].src} />
           <Card.Title>{product.title}</Card.Title>
           <Card.Subtitle>{product.variants[0].price}</Card.Subtitle>
           <Card.Text>{product.description}</Card.Text>
