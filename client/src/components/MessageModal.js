@@ -1,5 +1,14 @@
 import React from "react";
-import { Modal, ListGroup, Button, Col, Row, Container } from "react-bootstrap";
+import {
+  Modal,
+  ListGroup,
+  Button,
+  Col,
+  Row,
+  Container,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import { useConversations } from "../context/ConversationsProvider";
 
 export default function MessageModal() {
@@ -39,6 +48,9 @@ export default function MessageModal() {
         </Container>
       </Modal.Body>
       <Modal.Footer>
+        <InputGroup>
+          <FormControl as="textarea" aria-label="With textarea" />
+        </InputGroup>
         <Button> Send</Button>
       </Modal.Footer>
     </Modal>
