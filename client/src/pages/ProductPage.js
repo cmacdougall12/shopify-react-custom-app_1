@@ -3,9 +3,12 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { Card, Col, Container, Button, Spinner } from "react-bootstrap";
 import Cart from "../components/Cart";
+import MessageModal from "../components/MessageModal";
+import { useConversations } from "../context/ConversationsProvider";
 
 export default function ProductPage() {
   let { id } = useParams();
+  const { openConversations } = useConversations();
 
   const { fetchProductWithId, product, addItemsToCheckout, openCart } =
     useContext(ShopContext);
@@ -27,7 +30,7 @@ export default function ProductPage() {
     <Container fluid className="d-flex justify-content-center mt-5">
       <Col xs={10} md={5}>
         <Card>
-          <Card.Img src={product.images[0].src} thumbnail/>
+          <Card.Img src={product.images[0].src} thumbnail />
           <Card.Title>{product.title}</Card.Title>
           <Card.Subtitle>{product.variants[0].price}</Card.Subtitle>
           <Card.Text>{product.description}</Card.Text>
@@ -39,15 +42,19 @@ export default function ProductPage() {
           >
             Add to Cart
           </Button>
-          <Button variant="light">
-        <img src="/images/chat.svg" width={30} alt="chat-icon" className="m-2" />
-        Have a question?
-      </Button>
+          <Button variant="light" onClick={() => openConversations()}>
+            <img
+              src="/images/chat.svg"
+              width={30}
+              alt="chat-icon"
+              className="m-2"
+            />
+            Have a question?
+          </Button>
         </Card>
       </Col>
- 
-
       <Cart />
+      <MessageModal />
     </Container>
   );
 }

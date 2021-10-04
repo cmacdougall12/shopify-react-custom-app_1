@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { useConversations } from "../context/ConversationsProvider";
 import { ShopContext } from "../context/ShopContext";
 
 export default function NavBar() {
   const { openCart } = useContext(ShopContext);
+  const { openConversations } = useConversations();
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -24,7 +26,7 @@ export default function NavBar() {
             <Nav.Link href="#account">Account</Nav.Link>
           </Nav>
           <Nav className="ml-auto">
-            <Nav.Link>
+            <Nav.Link onClick={() => openConversations()}>
               <img
                 className="p-0.5"
                 width={30}
