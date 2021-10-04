@@ -4,7 +4,6 @@ import { Figure, Row, Col, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Cart from "../components/Cart";
 import MessageModal from "../components/MessageModal";
-import { useConversations } from "../context/ConversationsProvider";
 
 export default function HomePage() {
   const { fetchAllProducts, products } = useContext(ShopContext);
