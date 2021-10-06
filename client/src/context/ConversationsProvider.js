@@ -30,7 +30,6 @@ export function ConversationsProvider({ children }) {
       (conversation) => conversation.userId === userId
     );
     existing = userIdConversations.find((conversation, index) => {
-      console.log("userConversations", userIdConversations);
       if (conversation.productId === productId) {
         setActiveConversation(index);
         return true;
