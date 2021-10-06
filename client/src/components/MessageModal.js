@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Modal,
   ListGroup,
@@ -21,6 +21,12 @@ export default function MessageModal() {
 
   console.log("activeConversation", activeConversation);
 
+  const setRef = useCallback((node) => {
+    if (node) {
+      node.scrollIntoView({ smooth: true });
+    }
+  }, []);
+
   return (
     <Modal
       fullscreen={true}
@@ -39,6 +45,7 @@ export default function MessageModal() {
                   <ListGroup.Item
                     key={conversation.id}
                     active={index === activeConversation}
+                    ref={index === activeConversation ? setRef : null}
                   >
                     <img
                       width={100}
