@@ -32,7 +32,7 @@ export default function ProductPage() {
         <Card>
           <Card.Img src={product.images[0].src} />
           <Card.Title>{product.title}</Card.Title>
-          <Card.Subtitle>{product.variants[0].price}</Card.Subtitle>
+          <Card.Subtitle>${product.variants[0].price}</Card.Subtitle>
           <Card.Text>{product.description}</Card.Text>
           <Button
             onClick={() => {

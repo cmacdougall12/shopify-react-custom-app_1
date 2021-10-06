@@ -31,7 +31,7 @@ export default function HomePage() {
               <Figure>
                 <Figure.Image src={product.images[0].src} thumbnail />
                 <Figure.Caption>{product.title}</Figure.Caption>
-                <Figure.Caption>{product.variants[0].price}</Figure.Caption>
+                <Figure.Caption>${product.variants[0].price}</Figure.Caption>
               </Figure>
             </Link>
           </Col>
