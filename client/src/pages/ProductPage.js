@@ -8,7 +8,7 @@ import { useConversations } from "../context/ConversationsProvider";
 
 export default function ProductPage() {
   let { id } = useParams();
-  const { openConversations, createConversation } = useConversations();
+  const { openConversations, findExistingConversation } = useConversations();
 
   const { fetchProductWithId, product, addItemsToCheckout, openCart } =
     useContext(ShopContext);
@@ -46,7 +46,7 @@ export default function ProductPage() {
             variant="light"
             onClick={() => {
               openConversations();
-              createConversation(
+              findExistingConversation(
                 1,
                 product.id,
                 product.title,

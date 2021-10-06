@@ -12,10 +12,14 @@ import {
 import { useConversations } from "../context/ConversationsProvider";
 
 export default function MessageModal() {
-  const { closeConversations, showConversations, conversations } =
-    useConversations();
+  const {
+    closeConversations,
+    showConversations,
+    conversations,
+    activeConversation,
+  } = useConversations();
 
-  console.log(conversations);
+  console.log("activeConversation", activeConversation);
 
   return (
     <Modal
@@ -31,8 +35,11 @@ export default function MessageModal() {
           <Row>
             <Col xs className="border h-100">
               <ListGroup variant="flush">
-                {conversations.map((conversation) => (
-                  <ListGroup.Item key={conversation.id}>
+                {conversations.map((conversation, index) => (
+                  <ListGroup.Item
+                    key={conversation.id}
+                    active={index === activeConversation}
+                  >
                     <img
                       width={100}
                       src={conversation.productImage}
