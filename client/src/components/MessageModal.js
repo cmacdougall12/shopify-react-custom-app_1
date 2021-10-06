@@ -17,6 +17,7 @@ export default function MessageModal() {
     showConversations,
     conversations,
     activeConversation,
+    handleChangeConversation,
   } = useConversations();
 
   console.log("activeConversation", activeConversation);
@@ -46,6 +47,7 @@ export default function MessageModal() {
                     key={conversation.id}
                     active={index === activeConversation}
                     ref={index === activeConversation ? setRef : null}
+                    onClick={() => handleChangeConversation(index)}
                   >
                     <img
                       width={100}
@@ -58,6 +60,7 @@ export default function MessageModal() {
                 ))}
               </ListGroup>
             </Col>
+
             <Col>Messages</Col>
           </Row>
         </Container>

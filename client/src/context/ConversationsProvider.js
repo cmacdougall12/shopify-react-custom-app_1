@@ -10,7 +10,6 @@ export function useConversations() {
 
 export function ConversationsProvider({ children }) {
   const [showConversations, setShowConversations] = useState(false);
-  // const [selectedConversationIndex, setSelectedConversationIndex] = useState(0);
   const [conversations, setConversations] = useLocalStorage(
     "conversations",
     []
@@ -51,6 +50,10 @@ export function ConversationsProvider({ children }) {
         { userId, productId, productImage, productTitle, messages: [] },
       ];
     });
+  }
+
+  function handleChangeConversation(index) {
+    setActiveConversation(index);
   }
 
   const addMessageToConversation = useCallback(
@@ -115,6 +118,7 @@ export function ConversationsProvider({ children }) {
     createConversation,
     addMessageToConversation,
     findExistingConversation,
+    handleChangeConversation,
     // sendMessage,
     showConversations,
     conversations,
