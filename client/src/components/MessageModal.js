@@ -24,7 +24,7 @@ export default function MessageModal() {
 
   const setRef = useCallback((node) => {
     if (node) {
-      node.scrollIntoView({ smooth: true });
+      node.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
 
@@ -36,7 +36,9 @@ export default function MessageModal() {
       className="d-flex flex-column"
       size="lg"
     >
-      <Modal.Header closeButton>Messages</Modal.Header>
+      <Modal.Header closeButton onClick={() => handleChangeConversation(0)}>
+        Messages
+      </Modal.Header>
       <Modal.Body>
         <Container fluid>
           <Row>
