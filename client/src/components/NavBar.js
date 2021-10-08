@@ -31,20 +31,20 @@ export default function NavBar() {
           <Nav className="ml-auto">
             <Nav.Link onClick={() => openConversations()}>
               <img
-                className="p-0.5"
-                width={30}
+                className="m-1"
+                width={20}
                 src="/images/chat.svg"
                 alt="sc-logo"
-              />
+              />Messages
             </Nav.Link>
 
             <Nav.Link onClick={openCart}>
               <img
-                className="p-0.5"
-                width={30}
+                className="m-1"
+                width={20}
                 src="/images/shopping-cart-solid.svg"
                 alt="sc-logo"
-              />
+              />Cart
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
