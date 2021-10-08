@@ -55,36 +55,17 @@ export function ConversationsProvider({ children }) {
     setActiveConversation(index);
   }
 
-  const addMessageToConversation = useCallback(
-    ({ productId, text, userId }) => {
-      setConversations((prevConversations) => {
-        let madeChange = false;
-        const newMessage = { userId, text };
-        const newConversations = prevConversations.map((conversation) => {
-          if (conversation[productId]) {
-            madeChange = true;
-            return {
-              ...conversation,
-              messages: [...conversation.messages, newMessage],
-            };
-          }
-          return conversation;
-        });
+  const addMessageToConversation = (text, sender, active) => {
+    const newMessage = { sender, text };
+    const newConversations = [...conversations];
+    newConversations[active].messages.push(newMessage);
+    setConversations(newConversations);
+  };
 
-        if (madeChange) {
-          return newConversations;
-        } else {
-          return [...prevConversations, { productId, messages: [newMessage] }];
-        }
-      });
-    },
-    [setConversations]
-  );
-
-  // function sendMessage(recipients, text) {
-  //   // socket.emit("send-message", { recipients, text });
-  //   addMessageToConversation({ recipients, text, sender: "hard-coded-id" });
-  // }
+  function sendMessage(text, sender) {
+    // socket.emit("send-message", { recipients, text });
+    addMessageToConversation(text, sender, activeConversation);
+  }
 
   // const formattedConversations = conversations.map((conversation, index) => {
   // const products = conversation.productId
@@ -118,7 +99,7 @@ export function ConversationsProvider({ children }) {
     addMessageToConversation,
     findExistingConversation,
     handleChangeConversation,
-    // sendMessage,
+    sendMessage,
     showConversations,
     conversations,
     activeConversation,

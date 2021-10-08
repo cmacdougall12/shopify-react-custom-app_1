@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import {
   Modal,
   ListGroup,
@@ -8,6 +8,7 @@ import {
   Container,
   InputGroup,
   FormControl,
+  Form,
 } from "react-bootstrap";
 import { useConversations } from "../context/ConversationsProvider";
 
@@ -18,15 +19,40 @@ export default function MessageModal() {
     conversations,
     activeConversation,
     handleChangeConversation,
+    sendMessage,
   } = useConversations();
 
-  console.log("activeConversation", activeConversation);
+  const textRef = useRef();
 
   const setRef = useCallback((node) => {
     if (node) {
       node.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
+
+  const messages = (
+    <div className="d-flex flex-column flex-grow-1">
+      <div className="flex-grow-1 overflow-auto">
+        <div className="d-flex flex-column align-items-start justify-content-end px-3">
+          {conversations[activeConversation].messages.map((message, index) => (
+            <div
+              className={
+                "my-1 d-flex flex-column align-self-end align-items-end"
+              }
+              key={index}
+            >
+              <div className={"rounded px-2 py-1 bg-primary text-white"}>
+                {message.text}
+              </div>
+              <div className="text-muted small text-right">
+                {message.sender}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <Modal
@@ -63,15 +89,27 @@ export default function MessageModal() {
               </ListGroup>
             </Col>
 
-            <Col>Messages</Col>
+            <Col>{messages}</Col>
           </Row>
         </Container>
       </Modal.Body>
       <Modal.Footer>
         <InputGroup>
-          <FormControl as="textarea" placeholder="Ask question here?" />
+          <FormControl
+            ref={textRef}
+            as="textarea"
+            placeholder="Ask question here?"
+          />
         </InputGroup>
-        <Button> Send</Button>
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            sendMessage(textRef.current.value, 1);
+            textRef.current.value = "";
+          }}
+        >
+          Send
+        </Button>
       </Modal.Footer>
     </Modal>
   );
