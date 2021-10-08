@@ -8,7 +8,6 @@ import {
   Container,
   InputGroup,
   FormControl,
-  Form,
 } from "react-bootstrap";
 import { useConversations } from "../context/ConversationsProvider";
 import OpenConversation from "./OpenConversation";
