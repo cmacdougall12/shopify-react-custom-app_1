@@ -11,6 +11,7 @@ import {
   Form,
 } from "react-bootstrap";
 import { useConversations } from "../context/ConversationsProvider";
+import OpenConversation from "./OpenConversation";
 
 export default function MessageModal() {
   const {
@@ -29,30 +30,6 @@ export default function MessageModal() {
       node.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
-
-  const messages = (
-    <div className="d-flex flex-column flex-grow-1">
-      <div className="flex-grow-1 overflow-auto">
-        <div className="d-flex flex-column align-items-start justify-content-end px-3">
-          {conversations[activeConversation].messages.map((message, index) => (
-            <div
-              className={
-                "my-1 d-flex flex-column align-self-end align-items-end"
-              }
-              key={index}
-            >
-              <div className={"rounded px-2 py-1 bg-primary text-white"}>
-                {message.text}
-              </div>
-              <div className="text-muted small text-right">
-                {message.sender}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <Modal
@@ -89,7 +66,12 @@ export default function MessageModal() {
               </ListGroup>
             </Col>
 
-            <Col>{messages}</Col>
+            <Col>
+              <OpenConversation
+                conversations={conversations}
+                activeConversation={activeConversation}
+              />
+            </Col>
           </Row>
         </Container>
       </Modal.Body>
