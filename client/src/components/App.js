@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavBar from "./NavBar";
 import { ConversationsProvider } from "../context/ConversationsProvider";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 function App() {
   return (
@@ -16,6 +18,12 @@ function App() {
           <Switch>
             <Route path="/product/:id">
               <ProductPage />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
             </Route>
             <Route path="/">
               <HomePage />
