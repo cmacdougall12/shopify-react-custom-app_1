@@ -5,22 +5,18 @@ const io = require("socket.io")(5000, {
   },
 });
 
-
 io.on("connection", (socket) => {
+  console.log("socket created", 1);
   const id = socket.handshake.query.id;
   socket.join(id);
 
-  socket.on("send-message", ({ recipients, text }) => {
+  socket.on("send-message", ({ text }) => {
     console.log("message sent", text);
-    recipients.forEach((recipient) => {
-      const newRecipients = recipients.filter((r) => r !== recipient);
-      newRecipients.push(id);
 
-      socket.broadcast.to(recipient).emit("receive-message", {
-        recipients: newRecipients,
-        sender: id,
-        text,
-      });
+    socket.broadcast.to(2).emit("receive-message", {
+      sender: id,
+      text,
     });
+    console.log("message received", text);
   });
 });

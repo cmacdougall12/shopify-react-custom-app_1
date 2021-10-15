@@ -9,6 +9,7 @@ import NavBar from "./NavBar";
 import { ConversationsProvider } from "../context/ConversationsProvider";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 function App() {
   return (

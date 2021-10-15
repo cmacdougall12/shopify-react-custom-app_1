@@ -1,5 +1,6 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { useSocket } from "./SocketProvider";
 // import { ShopContext } from "./ShopContext";
 
 const ConversationsContext = React.createContext();
@@ -15,6 +16,7 @@ export function ConversationsProvider({ children }) {
     []
   );
   const [activeConversation, setActiveConversation] = useState(0);
+  const socket = useSocket();
 
   const closeConversations = () => setShowConversations(false);
   const openConversations = () => setShowConversations(true);
@@ -55,18 +57,27 @@ export function ConversationsProvider({ children }) {
     setActiveConversation(index);
   }
 
-  const addMessageToConversation = (text, sender, active) => {
+  const addMessageToConversation = useCallback((text, sender, active) => {
     const newMessage = { sender, text };
     const newConversations = [...conversations];
     newConversations[active].messages.push(newMessage);
     setConversations(newConversations);
-  };
+  },[setConversations, conversations]);
+
+
+
+  useEffect(() => {
+    if (socket == null) return;
+
+    socket.on("receive-message", addMessageToConversation);
+
+    return () => socket.off("receive-message");
+  }, [socket, addMessageToConversation]);
 
   function sendMessage(text, sender) {
-    // socket.emit("send-message", { recipients, text });
+    socket.emit("send-message", { text });
     addMessageToConversation(text, sender, activeConversation);
   }
-
 
   const value = {
     closeConversations,
@@ -87,4 +98,3 @@ export function ConversationsProvider({ children }) {
     </ConversationsContext.Provider>
   );
 }
-
