@@ -67,30 +67,6 @@ export function ConversationsProvider({ children }) {
     addMessageToConversation(text, sender, activeConversation);
   }
 
-  // const formattedConversations = conversations.map((conversation, index) => {
-  // const products = conversation.productId
-  // const recipients = conversation.productId.map((recipient) => {
-  //   const contact = contacts.find((contact) => {
-  //     return contact.id === recipient;
-  //   });
-
-  //   const name = (contact && contact.name) || recipient;
-  //   return { id: recipient, name };
-  // });
-
-  // const messages = conversation.messages.map((message) => {
-  //   const contact = contacts.find((contact) => {
-  //     return contact.id === message.sender;
-  //   });
-
-  //   const name = (contact && contact.name) || message.sender;
-  //   const fromMe = id === message.sender;
-  //   return { ...message, senderName: name, fromMe };
-  // });
-
-  // const selected = index === selectedConversationIndex;
-  // return { ...conversation, messages, recipients, selected };
-  // });
 
   const value = {
     closeConversations,
@@ -112,15 +88,3 @@ export function ConversationsProvider({ children }) {
   );
 }
 
-// function arrayEquality(a, b) {
-//   if (a.length !== b.length) {
-//     return false;
-//   }
-
-//   a.sort();
-//   b.sort();
-
-//   return a.every((element, index) => {
-//     return element === b[index];
-//   });
-// }
