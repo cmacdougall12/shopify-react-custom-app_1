@@ -29,7 +29,7 @@ export default function NavBar() {
 
             {user && (
               <Nav.Item>
-                <Button class="btn btn-outline-success" onClick={logout}>
+                <Button class="btn btn-outline-secondary" onClick={logout}>
                   Logout
                 </Button>
               </Nav.Item>
