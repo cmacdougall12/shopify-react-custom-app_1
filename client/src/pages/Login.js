@@ -1,12 +1,11 @@
 import React from "react";
 import api from "../api";
+import { useAuthentication } from "../context/LoginProvider";
 
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 
 export default function Login() {
-  const authenticateUser = async () => {
-    await api.getUsers().then((users) => console.log(users));
-  };
+  const {authenticateUser} = useAuthentication();
 
   return (
     <Container>
@@ -16,7 +15,7 @@ export default function Login() {
           <Form
             onSubmit={(e) => {
               e.preventDefault();
-              authenticateUser();
+              authenticateUser(e.target[0].value, e.target[1].value);
             }}
           >
             <Form.Group className="mb-3" controlId="email">
