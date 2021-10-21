@@ -8,7 +8,7 @@ import { ShopContext } from "../context/ShopContext";
 export default function NavBar() {
   const { openCart } = useContext(ShopContext);
   const { openConversations } = useConversations();
-  const { authentication, logout } = useAuthentication();
+  const { user, logout } = useAuthentication();
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -27,12 +27,14 @@ export default function NavBar() {
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/home">Collections</Nav.Link>
 
-            {authentication && (
-              <Button class="btn btn-outline-success" onClick={logout}>
-                Logout
-              </Button>
+            {user && (
+              <Nav.Item>
+                <Button class="btn btn-outline-success" onClick={logout}>
+                  Logout
+                </Button>
+              </Nav.Item>
             )}
-            {!authentication && (
+            {!user && (
               <NavDropdown title="Account">
                 <NavDropdown.Item href="/login">Log In</NavDropdown.Item>
                 <NavDropdown.Item href="/register">

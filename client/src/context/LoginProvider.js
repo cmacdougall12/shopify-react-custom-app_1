@@ -8,7 +8,7 @@ export function useAuthentication() {
 }
 
 export function AuthenticationProvider({ children }) {
-  const [authentication, setAuthenication] = useState(false);
+  const [user, setUser] = useState(null);
 
   const authenticateUser = async (email, password) => {
     console.log(
@@ -22,7 +22,7 @@ export function AuthenticationProvider({ children }) {
         const user = userData.find((user) => user.email === email);
         if (user) {
           user.password === password
-            ? setAuthenication(true)
+            ? setUser(user)
             : alert("incorrect credentials");
           return;
         }
@@ -34,13 +34,15 @@ export function AuthenticationProvider({ children }) {
   };
 
   const logout = () => {
-    setAuthenication(false);
+    setUser(null);
   };
 
-  console.log("authentication state changed", authentication);
+  user
+    ? console.log("user logged in", user._id)
+    : console.log("user logged out");
 
-  const value = { authentication, authenticateUser, logout };
-  
+  const value = { user, authenticateUser, logout };
+
   return (
     <AuthenticationContext.Provider value={value}>
       {children}
