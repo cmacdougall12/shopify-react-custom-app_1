@@ -7,7 +7,6 @@ let mongoose = require("mongoose");
 // Initialise the app
 let app = express();
 
-
 // Import routes
 let apiRoutes = require("./api-routes");
 // Configure bodyparser to handle post requests
@@ -30,6 +29,16 @@ var port = process.env.PORT || 8080;
 
 // Send message for default URL
 app.get("/", (req, res) => res.send("Express running"));
+
+//Satisfy CORS policy
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); 
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 // Use Api routes in the App
 app.use("/api", apiRoutes);
