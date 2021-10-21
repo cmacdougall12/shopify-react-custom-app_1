@@ -1,11 +1,14 @@
-import React, { useContext} from "react";
+import Button from "@restart/ui/esm/Button";
+import React, { useContext } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { useConversations } from "../context/ConversationsProvider";
+import { useAuthentication } from "../context/LoginProvider";
 import { ShopContext } from "../context/ShopContext";
 
 export default function NavBar() {
   const { openCart } = useContext(ShopContext);
   const { openConversations } = useConversations();
+  const { authentication, logout } = useAuthentication();
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -23,10 +26,20 @@ export default function NavBar() {
           <Nav className="me-auto">
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/home">Collections</Nav.Link>
-            <NavDropdown title="Account">
-              <NavDropdown.Item href="/login">Log In</NavDropdown.Item>
-              <NavDropdown.Item href="/register">Create Account</NavDropdown.Item>
-            </NavDropdown>
+
+            {authentication && (
+              <Button class="btn btn-outline-success" onClick={logout}>
+                Logout
+              </Button>
+            )}
+            {!authentication && (
+              <NavDropdown title="Account">
+                <NavDropdown.Item href="/login">Log In</NavDropdown.Item>
+                <NavDropdown.Item href="/register">
+                  Create Account
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
           <Nav className="ml-auto">
             <Nav.Link onClick={() => openConversations()}>
@@ -35,7 +48,8 @@ export default function NavBar() {
                 width={20}
                 src="/images/chat.svg"
                 alt="sc-logo"
-              />Messages
+              />
+              Messages
             </Nav.Link>
 
             <Nav.Link onClick={openCart}>
@@ -44,7 +58,8 @@ export default function NavBar() {
                 width={20}
                 src="/images/shopping-cart-solid.svg"
                 alt="sc-logo"
-              />Cart
+              />
+              Cart
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
