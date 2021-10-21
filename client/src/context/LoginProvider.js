@@ -37,11 +37,27 @@ export function AuthenticationProvider({ children }) {
     setUser(null);
   };
 
+  const createUser = async (
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword
+  ) => {
+    if (password !== confirmPassword)
+      return alert("Passwords do not match. Please confirm.");
+
+    await api
+      .createUser({ firstName, lastName, email, password, confirmPassword })
+      .then(() => console.log("user created"))
+      .catch((error) => console.log(error));
+  };
+
   user
     ? console.log("user logged in", user._id)
     : console.log("user logged out");
 
-  const value = { user, authenticateUser, logout };
+  const value = { user, authenticateUser, logout, createUser };
 
   return (
     <AuthenticationContext.Provider value={value}>
