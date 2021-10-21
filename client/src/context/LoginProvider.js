@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import api from "../api";
+import { useHistory } from "react-router-dom";
 
 const AuthenticationContext = React.createContext();
 
@@ -9,6 +10,7 @@ export function useAuthentication() {
 
 export function AuthenticationProvider({ children }) {
   const [user, setUser] = useState(null);
+  const history = useHistory();
 
   const authenticateUser = async (email, password) => {
     console.log(
@@ -47,9 +49,13 @@ export function AuthenticationProvider({ children }) {
     if (password !== confirmPassword)
       return alert("Passwords do not match. Please confirm.");
 
+    const newUser = { firstName, lastName, email, password, confirmPassword };
     await api
-      .createUser({ firstName, lastName, email, password, confirmPassword })
-      .then(() => console.log("user created"))
+      .createUser(newUser)
+      .then(() => {
+        setUser(newUser);
+        history.push("/");
+      })
       .catch((error) => console.log(error));
   };
 
