@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import api from "../api";
 import { useHistory } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const AuthenticationContext = React.createContext();
 
@@ -11,6 +12,7 @@ export function useAuthentication() {
 export function AuthenticationProvider({ children }) {
   const [user, setUser] = useState(null);
   const history = useHistory();
+  const [cookies, setCookies] = useCookies(["user"]);
 
   const authenticateUser = async (email, password) => {
     console.log(
@@ -25,6 +27,7 @@ export function AuthenticationProvider({ children }) {
         if (user) {
           if (user.password === password) {
             setUser(user);
+            setCookies("user", user._id, { path: "/" });
             history.push("/");
             return;
           }
@@ -41,6 +44,16 @@ export function AuthenticationProvider({ children }) {
 
   const logout = () => {
     setUser(null);
+    setCookies("user", "");
+  };
+
+  const checkIfExistingUser = async (email) => {
+    await api.getUsers().then((users) => {
+      const userData = users.data.data;
+      const user = userData.find((user) => user.email === email);
+      if (user) return true;
+      return false;
+    });
   };
 
   const createUser = async (
@@ -50,15 +63,17 @@ export function AuthenticationProvider({ children }) {
     password,
     confirmPassword
   ) => {
-    if (password !== confirmPassword)
-      return alert("Passwords do not match. Please confirm.");
+    if (checkIfExistingUser(email)){
+      return alert("email already exists")
+    }
+      if (password !== confirmPassword)
+        return alert("Passwords do not match. Please confirm.");
 
     const newUser = { firstName, lastName, email, password, confirmPassword };
     await api
       .createUser(newUser)
       .then(() => {
-        setUser(newUser);
-        history.push("/");
+        authenticateUser(email, password);
       })
       .catch((error) => console.log(error));
   };
