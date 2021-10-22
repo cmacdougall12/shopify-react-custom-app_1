@@ -23,9 +23,13 @@ export function AuthenticationProvider({ children }) {
         const userData = users.data.data;
         const user = userData.find((user) => user.email === email);
         if (user) {
-          user.password === password
-            ? setUser(user)
-            : alert("incorrect credentials");
+          if (user.password === password) {
+            setUser(user);
+            history.push("/");
+            return;
+          }
+
+          alert("incorrect credentials");
           return;
         }
         console.log("incorrect credentials");
