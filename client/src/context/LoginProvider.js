@@ -10,9 +10,17 @@ export function useAuthentication() {
 }
 
 export function AuthenticationProvider({ children }) {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const history = useHistory();
   const [cookies, setCookies] = useCookies(["user"]);
+
+  // const checkExistingSession = async () => {
+  //   if (cookies.user) {
+  //     await api.getUserById(cookies.user).then((user) => {
+  //       setUser(user)
+  //     });
+  //   }
+  // };
 
   const authenticateUser = async (email, password) => {
     console.log(
@@ -26,7 +34,7 @@ export function AuthenticationProvider({ children }) {
         const user = userData.find((user) => user.email === email);
         if (user) {
           if (user.password === password) {
-            setUser(user);
+            // setUser(user);
             setCookies("user", user._id, { path: "/" });
             history.push("/");
             return;
@@ -43,7 +51,7 @@ export function AuthenticationProvider({ children }) {
   };
 
   const logout = () => {
-    setUser(null);
+    // setUser(null);
     setCookies("user", "");
   };
 
@@ -63,11 +71,11 @@ export function AuthenticationProvider({ children }) {
     password,
     confirmPassword
   ) => {
-    if (checkIfExistingUser(email)){
-      return alert("email already exists")
+    if (checkIfExistingUser(email)) {
+      return alert("email already exists");
     }
-      if (password !== confirmPassword)
-        return alert("Passwords do not match. Please confirm.");
+    if (password !== confirmPassword)
+      return alert("Passwords do not match. Please confirm.");
 
     const newUser = { firstName, lastName, email, password, confirmPassword };
     await api
@@ -78,11 +86,13 @@ export function AuthenticationProvider({ children }) {
       .catch((error) => console.log(error));
   };
 
+  const user = cookies.user
+
   user
-    ? console.log("user logged in", user._id)
+    ? console.log("user logged in", user)
     : console.log("user logged out");
 
-  const value = { user, authenticateUser, logout, createUser };
+  const value = { user, authenticateUser, logout, createUser};
 
   return (
     <AuthenticationContext.Provider value={value}>
