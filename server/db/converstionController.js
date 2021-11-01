@@ -1,5 +1,5 @@
-// conversationController.js
-// Import conversation model
+// userController.js
+// Import user model
 Conversation = require("./conversationModel");
 // Handle index actions
 exports.index = function (req, res) {
@@ -13,52 +13,75 @@ exports.index = function (req, res) {
     res.json({
       status: "success",
       message: "Conversations retrieved successfully",
-      data: users,
+      data: conversations,
     });
   });
 };
-// Handle create user actions
+// Handle create conversation actions
 exports.new = function (req, res) {
   const conversation = new Conversation();
-  conversation.userId = req.body.userId
-  conversation.productId = req.body.productId
-  conversation.messages.push(req.body.message)
+  conversation.userId = req.body.userId ? req.body.userId : conversation.userId;
+  conversation.productId = req.body.productId;
+  conversation.messages.push({
+    text: req.body.text,
+    receipients: req.body.receipients,
+  });
   // save the user and check for errors
-  user.save(function (err) {
+  conversation.save(function (err) {
     if (err) res.json(err);
     res.json({
-      message: "New conversation created",
+      message: "New conversation created!",
       data: conversation,
     });
   });
 };
-// Add message to conversation
-exports.update = function (req, res) {
-  Conversation.findById(req.params.user_id, req.params.product_id, function (err, conversation) {
-    if (err) res.send(err);
-    conversation.messages.push(req.body.message)
-    // save the user and check for errors
-    conversation.save(function (err) {
-      if (err) res.json(err);
+
+// Handle view user info
+exports.view = function (req, res) {
+  Conversation.findById(
+    req.params.conversation_id,
+    function (err, conversation) {
+      if (err) res.send(err);
       res.json({
-        message: "Text added to conversation",
+        message: "conversation details loading..",
         data: conversation,
       });
-    });
-  });
+    }
+  );
 };
-// Handle delete user
-// exports.delete = function (req, res) {
-//   User.remove(
-//     {
-//       _id: req.params.user_id,
-//     },
-//     function (err, user) {
-//       if (err) res.send(err);
-//       res.json({
-//         status: "success",
-//         message: "user deleted",
-//       });
-//     }
-//   );
-// };
+// Handle add message to existing conversation
+exports.update = function (req, res) {
+  Conversation.findById(
+    req.params.conversation_id,
+    function (err, conversation) {
+      if (err) res.send(err);
+      conversation.messages.push({
+        text: req.body.text,
+        receipients: req.body.receipients,
+      });
+      // save the user and check for errors
+      conversation.save(function (err) {
+        if (err) res.json(err);
+        res.json({
+          message: "Message added to conversation",
+          data: conversation,
+        });
+      });
+    }
+  );
+};
+// Handle delete conversation
+exports.delete = function (req, res) {
+  Conversation.remove(
+    {
+      _id: req.params.conversation_id,
+    },
+    function (err, user) {
+      if (err) res.send(err);
+      res.json({
+        status: "success",
+        message: "conversation deleted",
+      });
+    }
+  );
+};
