@@ -11,6 +11,8 @@ export function useConversations() {
 
 export function ConversationsProvider({ children }) {
   const [showConversations, setShowConversations] = useState(false);
+
+  //change to use mongoDb
   const [conversations, setConversations] = useLocalStorage(
     "conversations",
     []
