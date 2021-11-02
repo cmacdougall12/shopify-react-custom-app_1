@@ -11,6 +11,7 @@ router.get("/", function (req, res) {
 // Import user controller
 const userController = require("./userController");
 // user routes
+router.route("/users").get(userController.index).post(userController.new);
 
 router
   .route("/users/:user_id")

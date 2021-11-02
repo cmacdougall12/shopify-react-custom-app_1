@@ -18,7 +18,9 @@ export function ConversationsProvider({ children }) {
   const [showConversations, setShowConversations] = useState(false);
 
   //change to use mongoDb
+
   const [conversations, setConversations] = [];
+
   const [activeConversation, setActiveConversation] = useState(0);
   const socket = useSocket();
 
