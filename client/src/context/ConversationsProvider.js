@@ -17,6 +17,9 @@ export function ConversationsProvider({ children }) {
     "conversations",
     []
   );
+
+  
+
   const [activeConversation, setActiveConversation] = useState(0);
   const socket = useSocket();
 
