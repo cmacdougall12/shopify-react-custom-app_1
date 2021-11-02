@@ -27,9 +27,9 @@ export function ConversationsProvider({ children }) {
   const closeConversations = () => setShowConversations(false);
   const openConversations = () => setShowConversations(true);
 
-  const getUserConversations = async (id) => {
+  const getUserConversations = async () => {
     await api
-      .getConversationsByUserId(id)
+      .getConversations()
       .then((conversations) => console.log(conversations));
   };
 
