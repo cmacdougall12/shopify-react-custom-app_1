@@ -1,6 +1,9 @@
 import React, { useState, useContext, useCallback, useEffect } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useSocket } from "./SocketProvider";
+import { useAuthentication } from "../context/LoginProvider";
+import api from "../api";
+
 // import { ShopContext } from "./ShopContext";
 
 const ConversationsContext = React.createContext();
@@ -10,18 +13,22 @@ export function useConversations() {
 }
 
 export function ConversationsProvider({ children }) {
+  const { user } = useAuthentication();
+
   const [showConversations, setShowConversations] = useState(false);
 
   //change to use mongoDb
-  const [conversations, setConversations] = useLocalStorage(
-    "conversations",
-    []
-  );
+  const [conversations, setConversations] = [];
   const [activeConversation, setActiveConversation] = useState(0);
   const socket = useSocket();
 
   const closeConversations = () => setShowConversations(false);
   const openConversations = () => setShowConversations(true);
+
+  const getUserConversations = async(id)=> {
+    await api
+      .getUsers()
+  }
 
   function findExistingConversation(
     userId,
@@ -59,14 +66,15 @@ export function ConversationsProvider({ children }) {
     setActiveConversation(index);
   }
 
-  const addMessageToConversation = useCallback((text, sender, active) => {
-    const newMessage = { sender, text };
-    const newConversations = [...conversations];
-    newConversations[active].messages.push(newMessage);
-    setConversations(newConversations);
-  },[setConversations, conversations]);
-
-
+  const addMessageToConversation = useCallback(
+    (text, sender, active) => {
+      const newMessage = { sender, text };
+      const newConversations = [...conversations];
+      newConversations[active].messages.push(newMessage);
+      setConversations(newConversations);
+    },
+    [setConversations, conversations]
+  );
 
   useEffect(() => {
     if (socket == null) return;
