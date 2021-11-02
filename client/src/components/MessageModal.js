@@ -20,9 +20,11 @@ export default function MessageModal() {
     activeConversation,
     handleChangeConversation,
     sendMessage,
+    getUserConversations ,
   } = useConversations();
 
   const textRef = useRef();
+
 
   return (
     <Modal

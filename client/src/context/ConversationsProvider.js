@@ -25,10 +25,11 @@ export function ConversationsProvider({ children }) {
   const closeConversations = () => setShowConversations(false);
   const openConversations = () => setShowConversations(true);
 
-  const getUserConversations = async(id)=> {
+  const getUserConversations = async (id) => {
     await api
-      .getUsers()
-  }
+      .getConversationsByUserId(id)
+      .then((conversations) => console.log(conversations));
+  };
 
   function findExistingConversation(
     userId,
@@ -90,6 +91,7 @@ export function ConversationsProvider({ children }) {
   }
 
   const value = {
+    getUserConversations,
     closeConversations,
     openConversations,
     createConversation,
